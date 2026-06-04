@@ -59,9 +59,14 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(p =>
+        p.WithOrigins("http://localhost:5173")
+         .AllowAnyHeader()
+         .AllowAnyMethod()));
 
 var app = builder.Build();
-
+app.UseCors();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseAuthentication();
